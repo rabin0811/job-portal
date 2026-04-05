@@ -1,0 +1,142 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var users     = (IEnumerable<JobPortal.Models.User>)ViewBag.Users;
+    var jobs      = (IEnumerable<JobPortal.Models.Job>)ViewBag.Jobs;
+    var companies = (IEnumerable<JobPortal.Models.Company>)ViewBag.Companies;
+    int totalApps = (int)ViewBag.Applications;
+}
+
+<div class="mb-4">
+    <h4 class="fw-bold mb-1">Admin Dashboard</h4>
+    <p class="text-muted small">Full platform management</p>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="fs-2 fw-bold text-primary">@users.Count()</div>
+            <div class="text-muted small">Total Users</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="fs-2 fw-bold text-success">@jobs.Count()</div>
+            <div class="text-muted small">Total Jobs</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="fs-2 fw-bold text-warning">@companies.Count()</div>
+            <div class="text-muted small">Companies</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="fs-2 fw-bold text-info">@totalApps</div>
+            <div class="text-muted small">Applications</div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+<ul class="nav nav-tabs mb-4 border-bottom" id="adminTabs" role="tablist">
+    <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#tab-users">Users (@users.Count())</button></li>
+    <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-jobs">Jobs (@jobs.Count())</button></li>
+    <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-companies">Companies (@companies.Count())</button></li>
+</ul>
+
+<div class="tab-content">
+    <!-- USERS TAB -->
+    <div class="tab-pane fade show active" id="tab-users">
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr><th class="ps-4">Name</th><th>Email</th><th>Role</th><th class="text-end pe-4">Actions</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var u in users)
+                        {
+                            var roleClass = u.Role switch { "Admin" => "text-bg-danger", "Employer" => "text-bg-primary", _ => "text-bg-secondary" };
+                            <tr>
+                                <td class="ps-4 fw-bold">@u.Name</td>
+                                <td class="text-muted small">@u.Email</td>
+                                <td><span class="badge rounded-pill @roleClass px-3">@u.Role</span></td>
+                                <td class="text-end pe-4 d-flex gap-2 justify-content-end">
+                                    @if (u.Role == "JobSeeker")
+                                    {
+                                        <a asp-action="PromoteUser" asp-route-id="@u.Id"
+                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">Promote</a>
+                                    }
+                                    @if (u.Role != "Admin")
+                                    {
+                                        <a asp-action="DeleteUser" asp-route-id="@u.Id"
+                                           class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                           onclick="return confirm('Delete user @u.Name?')">Delete</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- JOBS TAB -->
+    <div class="tab-pane fade" id="tab-jobs">
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr><th class="ps-4">Title</th><th>Company</th><th>Posted</th><th class="text-end pe-4">Actions</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var j in jobs)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold">@j.Title</td>
+                                <td class="text-muted small">@j.Company?.Name</td>
+                                <td class="text-muted small">@j.IssueDate.ToShortDateString()</td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="DeleteJob" asp-route-id="@j.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                       onclick="return confirm('Delete this job?')">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPANIES TAB -->
+    <div class="tab-pane fade" id="tab-companies">
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr><th class="ps-4">Company</th><th>Location</th><th>Jobs</th><th class="text-end pe-4">Actions</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in companies)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold">@c.Name</td>
+                                <td class="text-muted small">@c.Location</td>
+                                <td class="text-muted small">@c.Jobs.Count</td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="DeleteCompany" asp-route-id="@c.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                       onclick="return confirm('Delete company @c.Name?')">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

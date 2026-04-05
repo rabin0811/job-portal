@@ -1,0 +1,61 @@
+@model JobPortal.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="row justify-content-center pt-5">
+    <div class="col-md-5 col-lg-4 mt-5">
+        <div class="card shadow p-4 border-0">
+             <div class="px-2">
+                 <h2 class="fw-bold mb-1 mt-2">Sign in</h2>
+                 <p class="text-muted smaller">Stay updated on your professional world</p>
+                 
+                 @if (ViewBag.Error != null)
+                 {
+                     <div class="alert alert-danger p-2 small border-0 shadow-sm">
+                         <i class="bi bi-exclamation-circle-fill me-1"></i> @ViewBag.Error
+                     </div>
+                 }
+                 
+                 <form asp-action="Login" method="post" class="mt-4">
+                     <div class="mb-3">
+                         <label class="form-label small fw-bold text-muted mb-1" asp-for="Email">Email</label>
+                         <input asp-for="Email" class="form-control form-control-lg border-dark-subtle" placeholder="Email" />
+                         <span asp-validation-for="Email" class="text-danger extra-small"></span>
+                     </div>
+                     <div class="mb-3">
+                         <label class="form-label small fw-bold text-muted mb-1" asp-for="Password">Password</label>
+                         <div class="input-group">
+                             <input asp-for="Password" type="password" class="form-control form-control-lg border-dark-subtle" placeholder="Password" />
+                         </div>
+                         <span asp-validation-for="Password" class="text-danger extra-small"></span>
+                     </div>
+                     
+                     <div class="mb-3 small">
+                         <a href="#" class="text-decoration-none fw-bold">Forgot password?</a>
+                     </div>
+                     
+                     <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold mb-3">Sign in</button>
+                 </form>
+                 
+                 <div class="divider d-flex align-items-center my-4">
+                    <p class="text-center fw-bold mx-3 mb-0 text-muted small">or</p>
+                  </div>
+                  
+                  <div class="text-center mt-3">
+                      New to JobPortal? <a asp-action="Register" class="text-decoration-none fw-bold">Join now</a>
+                  </div>
+             </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+</style>
