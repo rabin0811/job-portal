@@ -1,0 +1,67 @@
+@model JobPortal.ViewModels.CompanyRegisterViewModel
+@{
+    ViewData["Title"] = "Register Company";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow p-4 border-0">
+            <h3 class="fw-bold mb-1">Register your company</h3>
+            <p class="text-muted small mb-4">Connect with talented professionals on Elevate Workforce Solutions</p>
+
+            <form asp-action="Register" method="post" enctype="multipart/form-data">
+                <h6 class="fw-bold text-muted mb-3 text-uppercase" style="font-size:11px;letter-spacing:1px;">Company Information</h6>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="CompanyName">Company Name</label>
+                    <input asp-for="CompanyName" class="form-control" placeholder="e.g. Acme Corp" />
+                    <span asp-validation-for="CompanyName" class="text-danger small"></span>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label class="form-label small fw-bold" asp-for="Location">Location</label>
+                        <input asp-for="Location" class="form-control" placeholder="e.g. Kathmandu, Nepal" />
+                        <span asp-validation-for="Location" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Description">Company Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="What does your company do?"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Website">Website</label>
+                    <input asp-for="Website" class="form-control" placeholder="https://yourcompany.com" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-bold" asp-for="Logo">Company Logo</label>
+                    <input asp-for="Logo" type="file" class="form-control" accept="image/*" />
+                </div>
+
+                <hr />
+                <h6 class="fw-bold text-muted mb-3 text-uppercase" style="font-size:11px;letter-spacing:1px;">Account Admin</h6>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Name">Your Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Full name" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Email">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="work@company.com" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-bold" asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="6+ characters" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold">Register Company</button>
+            </form>
+
+            <div class="text-center mt-3 small">
+                Already have an employer account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none fw-bold">Sign in</a>
+            </div>
+        </div>
+    </div>
+</div>

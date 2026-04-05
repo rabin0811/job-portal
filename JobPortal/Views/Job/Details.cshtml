@@ -1,0 +1,106 @@
+@model JobPortal.Models.Job
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="row">
+    <!-- Job Main Info -->
+    <div class="col-lg-8 mb-4">
+        <div class="card overflow-hidden">
+            <div class="p-4 border-bottom">
+                 <div class="d-flex align-items-start justify-content-between mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-light d-flex align-items-center justify-content-center border me-3" style="width: 72px; height: 72px;">
+                            <i class="bi bi-building fs-1 text-secondary"></i>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold mb-1">@Model.Title</h3>
+                            <div class="fs-5">
+                                <a asp-controller="Company" asp-action="Details" asp-route-id="@Model.CompanyId" class="text-decoration-none">@Model.Company?.Name</a>
+                                <span class="text-muted">• @Model.Location</span>
+                            </div>
+                            <div class="text-muted small mt-1">
+                                Posted @Model.IssueDate.ToShortDateString() • @Model.Applications.Count applicants
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mb-2 mt-4">
+                    @if (Context.Session.GetString("UserRole") == "JobSeeker")
+                    {
+                        <a asp-controller="Application" asp-action="Apply" asp-route-jobId="@Model.Id" class="btn btn-primary rounded-pill px-4 fw-bold">Apply now</a>
+                    }
+                    else if (Context.Session.GetString("UserId") == null)
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary rounded-pill px-4 fw-bold">Login to Apply</a>
+                    }
+                    <button class="btn btn-outline-primary rounded-pill px-4 fw-bold">Save</button>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <h5 class="fw-bold mb-4">About the job</h5>
+                
+                <div class="mb-4">
+                    <p class="text-muted pre-line">@Model.Description</p>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Requirements))
+                {
+                    <h6 class="fw-bold mb-3">Requirements</h6>
+                    <p class="text-muted pre-line">@Model.Requirements</p>
+                }
+
+                <div class="row mt-5 pt-3 border-top g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small">Job type</div>
+                        <div class="fw-bold">@Model.JobType</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small">Location</div>
+                        <div class="fw-bold">@Model.Location</div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Salary))
+                    {
+                        <div class="col-6 col-md-3">
+                            <div class="text-muted small">Salary</div>
+                            <div class="fw-bold">@Model.Salary</div>
+                        </div>
+                    }
+                    @if (Model.Deadline.HasValue)
+                    {
+                        <div class="col-6 col-md-3">
+                            <div class="text-muted small">Deadline</div>
+                            <div class="fw-bold">@Model.Deadline.Value.ToShortDateString()</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Sidebar -->
+    <div class="col-lg-4">
+        <div class="card p-4 text-center">
+             <div class="bg-light d-flex align-items-center justify-content-center border mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                <i class="bi bi-building fs-1 text-secondary"></i>
+            </div>
+            <h5 class="fw-bold mb-1">@Model.Company?.Name</h5>
+            <p class="text-muted small">@Model.Company?.Location • 1,241 followers</p>
+            
+            <button class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold mb-3">Follow</button>
+            
+            <hr class="my-3" />
+            <div class="text-start">
+                <h6 class="fw-bold small mb-3">Company Description</h6>
+                <p class="smaller text-muted mb-0">@Model.Company?.Description</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.pre-line { white-space: pre-line; }
+.smaller { font-size: 13px; }
+</style>

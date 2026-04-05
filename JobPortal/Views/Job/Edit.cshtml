@@ -1,0 +1,69 @@
+@model JobPortal.ViewModels.JobUpdateViewModel
+@{
+    ViewData["Title"] = "Edit Job";
+}
+
+<div class="row justify-content-center mt-3">
+    <div class="col-md-8 col-lg-7">
+        <div class="card border-0 shadow-sm p-4">
+            <h4 class="fw-bold mb-1">Edit Job Posting</h4>
+            <p class="text-muted small mb-4">Modify the details of your job listing</p>
+
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CompanyId" />
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Title">Job Title *</label>
+                    <input asp-for="Title" class="form-control" placeholder="e.g. Senior Software Engineer" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold" asp-for="JobType">Job Type</label>
+                        <select asp-for="JobType" class="form-select">
+                            <option value="">Select type</option>
+                            <option>Full-time</option>
+                            <option>Part-time</option>
+                            <option>Contract</option>
+                            <option>Remote</option>
+                            <option>Internship</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold" asp-for="Location">Location</label>
+                        <input asp-for="Location" class="form-control" placeholder="e.g. Kathmandu or Remote" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Salary">Salary Range</label>
+                    <input asp-for="Salary" class="form-control" placeholder="e.g. NPR 50,000 – 80,000 / month" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Description">Job Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="5"
+                              placeholder="Describe the role, responsibilities..."></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold" asp-for="Requirements">Requirements</label>
+                    <textarea asp-for="Requirements" class="form-control" rows="4"
+                              placeholder="Required skills, experience, education..."></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label small fw-bold" asp-for="Deadline">Application Deadline</label>
+                    <input asp-for="Deadline" type="date" class="form-control" />
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold">Update Job</button>
+                    <a asp-controller="Company" asp-action="Dashboard" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

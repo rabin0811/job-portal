@@ -1,0 +1,85 @@
+:root {
+    --linkedin-blue: #004182;
+    --linkedin-navy: #0a66c2;
+    --linkedin-gray: #f3f2ef;
+    --text-main: rgba(0,0,0,0.9);
+    --text-muted: rgba(0,0,0,0.6);
+}
+
+body {
+    background-color: var(--linkedin-gray);
+    color: var(--text-main);
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.bg-linkedin {
+    background-color: var(--linkedin-blue) !important;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255,255,255, 0.8) !important;
+    transition: color 0.2s;
+}
+
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+    color: #fff !important;
+}
+
+.navbar-nav .nav-text {
+    font-size: 12px;
+}
+
+.tracking-tight {
+    letter-spacing: -0.02em;
+}
+
+.card {
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background-color: #0a66c2;
+    border-color: #0a66c2;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #004182;
+    border-color: #004182;
+}
+
+.job-card:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.hero-section {
+    background-color: #fff;
+    padding: 60px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.search-bar {
+    background: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sticky-top {
+    z-index: 1020;
+}
+
+.avatar-lg {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+}
+
+.badge-linkedin {
+    background-color: #e7f3ff;
+    color: #0a66c2;
+}

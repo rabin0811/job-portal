@@ -1,0 +1,69 @@
+@model IEnumerable<JobPortal.Models.Company>
+@{
+    ViewData["Title"] = "Companies";
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="fw-bold mb-0">Companies</h4>
+                <p class="text-muted small mb-0">@Model.Count() companies on Elevate Workforce Solutions</p>
+            </div>
+            @if (Context.Session.GetString("UserRole") == "Admin")
+            {
+                <a asp-action="Register" class="btn btn-primary rounded-pill px-4 fw-bold">+ Add Company</a>
+            }
+        </div>
+
+        @foreach (var company in Model)
+        {
+            <div class="card mb-3 job-card">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-light border d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width:64px;height:64px;">
+                            @if (!string.IsNullOrEmpty(company.LogoPath))
+                            {
+                                <img src="@company.LogoPath" alt="@company.Name" style="width:60px;height:60px;object-fit:cover;">
+                            }
+                            else
+                            {
+                                <i class="bi bi-building fs-2 text-secondary"></i>
+                            }
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-bold">
+                                <a asp-action="Details" asp-route-id="@company.Id" class="text-decoration-none text-dark">@company.Name</a>
+                            </h5>
+                            <div class="text-muted small">@company.Location</div>
+                            <div class="text-muted small mt-1">
+                                <i class="bi bi-briefcase me-1"></i>@company.Jobs.Count open position(s)
+                            </div>
+                        </div>
+                        <div>
+                            <a asp-action="Details" asp-route-id="@company.Id" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="card p-5 text-center">
+                <i class="bi bi-building fs-1 text-muted mb-3"></i>
+                <h5>No companies yet</h5>
+                <p class="text-muted">Be the first to register your company.</p>
+                <a asp-action="Register" class="btn btn-primary rounded-pill px-4 fw-bold mx-auto" style="width:fit-content">Register Company</a>
+            </div>
+        }
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card p-4">
+            <h6 class="fw-bold mb-3">Are you an employer?</h6>
+            <p class="text-muted small">Register your company on Elevate Workforce Solutions and start connecting with top talent.</p>
+            <a asp-action="Register" class="btn btn-primary rounded-pill w-100 fw-bold">Register a Company</a>
+        </div>
+    </div>
+</div>

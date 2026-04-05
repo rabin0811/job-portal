@@ -1,0 +1,51 @@
+@model JobPortal.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Join Now";
+}
+
+<div class="row justify-content-center pt-2">
+    <div class="col-md-5 col-lg-4 mt-5 text-center">
+        <h3 class="fw-normal mb-4">Make the most of your professional life</h3>
+        
+        <div class="card shadow p-4 border-0 text-start">
+             <div class="px-2">
+                 <form asp-action="Register" method="post" class="mt-2">
+                     <div class="mb-3">
+                         <label class="form-label small fw-bold text-muted mb-1" asp-for="Name">Name</label>
+                         <input asp-for="Name" class="form-control form-control-lg border-dark-subtle" placeholder="Full name" />
+                         <span asp-validation-for="Name" class="text-danger extra-small"></span>
+                     </div>
+                     
+                     <div class="mb-3">
+                         <label class="form-label small fw-bold text-muted mb-1" asp-for="Email">Email</label>
+                         <input asp-for="Email" class="form-control form-control-lg border-dark-subtle" placeholder="Email" />
+                         <span asp-validation-for="Email" class="text-danger extra-small"></span>
+                     </div>
+                     
+                     <div class="mb-4">
+                         <label class="form-label small fw-bold text-muted mb-1" asp-for="Password">Password (6 or more characters)</label>
+                         <input asp-for="Password" type="password" class="form-control form-control-lg border-dark-subtle" placeholder="Password" />
+                         <span asp-validation-for="Password" class="text-danger extra-small"></span>
+                     </div>
+                     
+                     <p class="smaller text-muted text-center mb-4" style="font-size: 11px;">
+                         By clicking Agree & Join, you agree to the Elevate Workforce Solutions User Agreement, Privacy Policy, and Cookie Policy.
+                     </p>
+                     
+                     <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold mb-3">Agree & Join</button>
+                 </form>
+                 
+                  <div class="text-center mt-3">
+                      Already on Elevate Workforce Solutions? <a asp-action="Login" class="text-decoration-none fw-bold">Sign in</a>
+                  </div>
+                  
+                  <hr class="my-4" />
+                  
+                  <div class="text-center">
+                      <p class="small mb-2">Looking to hire for your company?</p>
+                      <a asp-controller="Company" asp-action="Register" class="btn btn-outline-primary w-100 rounded-pill fw-bold">Step-by-step Company Registration</a>
+                  </div>
+             </div>
+        </div>
+    </div>
+</div>

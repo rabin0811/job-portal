@@ -1,0 +1,130 @@
+@model IEnumerable<JobPortal.Models.Job>
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+<div class="row">
+    <!-- Filters Column -->
+    <div class="col-lg-3 mb-4">
+        <div class="card sticky-top" style="top: 80px;">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3">Job search filters</h6>
+                
+                <form asp-action="Index" method="get">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Keywords</label>
+                        <input name="search" class="form-control form-control-sm" value="@ViewBag.Search">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Location</label>
+                        <input name="loc" class="form-control form-control-sm" value="@ViewBag.Loc">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Job Type</label>
+                        <select name="type" class="form-select form-select-sm">
+                            <option value="">All Types</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill fw-bold">Filter results</button>
+                    <a asp-action="Index" class="btn btn-link btn-sm d-block text-center mt-2 text-decoration-none">Clear</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs List Column -->
+    <div class="col-lg-6 mb-4">
+        @if (!Model.Any())
+        {
+            <div class="card p-5 text-center bg-white border-0">
+                <i class="bi bi-search fs-1 text-muted mb-3"></i>
+                <h5 class="fw-bold">No jobs found</h5>
+                <p class="text-muted small">Try adjusting your search filters to find more opportunities.</p>
+            </div>
+        }
+        else
+        {
+            <div class="card overflow-hidden">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">Recommended for you</h5>
+                    <p class="text-muted small mb-0">Based on your searching history</p>
+                </div>
+                <div class="list-group list-group-flush">
+                    @foreach (var job in Model)
+                    {
+                        <a asp-action="Details" asp-route-id="@job.Id" class="list-group-item list-group-item-action p-4 border-bottom border-light job-card">
+                            <div class="d-flex">
+                                <div class="bg-light d-flex align-items-center justify-content-center border me-3 flex-shrink-0" style="width: 56px; height: 56px;">
+                                    <i class="bi bi-building fs-3 text-secondary"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0 fw-bold text-primary">@job.Title</h6>
+                                    <div class="small">@job.Company?.Name</div>
+                                    <div class="text-muted small">@job.Location (@job.JobType)</div>
+                                    
+                                    <div class="mt-2 text-success small">
+                                        <i class="bi bi-person-check-fill me-1"></i> Your profile matches this job
+                                    </div>
+                                    
+                                    <div class="text-muted mt-2" style="font-size: 11px;">
+                                        Posted @((DateTime.Now - job.IssueDate).Days) days ago
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+                
+                @if (ViewBag.TotalPages > 1)
+                {
+                    <div class="card-footer bg-white border-0 py-3">
+                        <nav>
+                            <ul class="pagination pagination-sm justify-content-center mb-0">
+                                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                                    <a class="page-link rounded-pill px-3 me-2" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-search="@ViewBag.Search" asp-route-type="@ViewBag.Type" asp-route-loc="@ViewBag.Loc">Previous</a>
+                                </li>
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                        <a class="page-link rounded-circle mx-1" asp-action="Index" asp-route-page="@i" asp-route-search="@ViewBag.Search" asp-route-type="@ViewBag.Type" asp-route-loc="@ViewBag.Loc">@i</a>
+                                    </li>
+                                }
+                                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                                    <a class="page-link rounded-pill px-3 ms-2" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-search="@ViewBag.Search" asp-route-type="@ViewBag.Type" asp-route-loc="@ViewBag.Loc">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- Job Seekers Side Column -->
+    <div class="col-lg-3">
+        <div class="card bg-white p-3 mb-3 text-center">
+            <h6 class="fw-bold small mb-3">Want more jobs?</h6>
+            <p class="smaller text-muted mb-3" style="font-size: 11px;">Complete your profile to get personalized job recommendations.</p>
+            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill fw-bold w-100">Finish Profile</a>
+        </div>
+        
+        <div class="card bg-white p-3">
+            <h6 class="fw-bold small mb-2 text-muted">Who to follow</h6>
+            <div class="d-flex align-items-center mt-3">
+                <i class="bi bi-person-circle fs-3 text-muted me-2"></i>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="fw-bold small text-truncate">Tech Careers Corp</div>
+                    <div class="text-muted smaller truncate-1" style="font-size: 10px;">Hiring daily for Software Engineers</div>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-0 fw-bold" style="font-size: 11px;">+ Follow</button>
+            </div>
+        </div>
+    </div>
+</div>
